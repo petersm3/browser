@@ -97,7 +97,7 @@ ed="false">Format<span class="caret"></span></a>
      </ul>
 </form>
   <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">About</a></li>
+        <li><a href="/about">About</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
