@@ -13,7 +13,7 @@ $this->setLayoutVar('pageTitle', 'Image and cultural properties browser');
       </button>
       <a class="navbar-brand" href="/">Browser <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
     </div>
-<form method="post" action="/testo">
+<form method="post" action="/">
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -37,7 +37,6 @@ ed="false">Photographer<span class="caret"></span></a>
           </ul>
         </li>
       </ul>
-</form>
       <ul class="nav navbar-nav">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expand
@@ -93,6 +92,10 @@ ed="false">Format<span class="caret"></span></a>
           </ul>
         </li>
       </ul>
+     <ul class="nav navbar-nav">
+          <button type="submit" class="btn btn-default navbar-btn">Submit</button>
+     </ul>
+</form>
   <ul class="nav navbar-nav navbar-right">
         <li><a href="#">About</a></li>
       </ul>
