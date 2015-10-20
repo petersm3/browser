@@ -1,15 +1,14 @@
 <?php
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
-//         echo "cat1: " . $this->get['cat1'][1] . '<br/>';
-//                 echo "cat2: " . $this->post['cat2'][0] . '<br/>';
 class Navigation {
     public function getMenus($get, $post) {
         // Dynamically construct drop downs
         $categories = array("Creator", "Photographer", "Style Period", "Work Type", "Region", "Rights", "Format");
+        
         $menus='';
 
-$menus.='
+$menus.= <<<'EOD'
 <nav class="navbar navbar-default">
 <div class="container-fluid">
 <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,42 +23,51 @@ $menus.='
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <form method="post" action="/">
-<ul class="nav navbar-nav">';
+<ul class="nav navbar-nav">
+EOD;
 
-foreach ($categories as $category) {
-$menus.='
-<li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-$menus.=$category;
-$menus.='<span class="caret"></span></a>
-<ul class="dropdown-menu">';
-$value_set="creator-x";
-$checked='';
-//echo '!'.$post[$category][0].'!<br/>';
-foreach ($post as $key => $value) {
-    //echo "|$key -> $value|<br/>";
-    echo $value.'<br/>';
-    if ("$value" == "$category-$value_set") {
-        $checked='checked';
-        //echo 'gotcha<br/>';
-    }
-}
-$menus.='<li>&nbsp;<input type="checkbox" ' . $checked . ' name="' . $category . '" value="' . $category .'-'.$value_set .'"  onchange="this.form.submit();"> ' . $value_set .'</li>
-</ul>
-</li>';
-}
+        // Itterate through each pre-defined category in order and construct drop-down
+        foreach ($categories as $category) {
+            $categoryUnderscore = str_replace(' ', '_', $category); // Avoid spaces in GET
+            // $i integer needs to replaced with a table query for category in question
+            $menus.='<li class="dropdown">';
+            $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+            $menus.=$category;
+            $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
+            for ($i = 1; $i <= 10; $i++) {
+            $checked='';
+            // Not handling 2 checks of the same category
+            foreach ($post['filters'] as $key => $value) {
+                if ("$value" == "$categoryUnderscore:$i") {
+                    $checked='checked';
+                }
+            }
+            $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
+            $menus.=' name="filters[]" value="' . $categoryUnderscore.':'.$i;
+            $menus.='" onchange="this.form.submit();"> ' . $i;
+            $menus.='</li>';
+            }
+            $menus.='</ul></li>';
+        }
 
 // Close drop down menus and list About menu to right
-$menus .= '
+$menus.= <<<'EOD'
 </ul>
 </form>
 <ul class="nav navbar-nav navbar-right">
 <li><a href="/about">About</a></li>
 </ul>
 </div><!-- /.navbar-collapse -->
+EOD;
+        /*$menus.="Current filters: ";
+        foreach ($post['filters'] as $key => $value) {
+            $menus.=$value . ' | ';
+        }
+         */
+$menus.= <<<'EOD'
 </div><!-- /.container-fluid -->
-</nav>';
-
+  </nav>'
+EOD;
         return $menus;
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */
