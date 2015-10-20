@@ -58,16 +58,16 @@ $menus.= <<<'EOD'
 <li><a href="/about">About</a></li>
 </ul>
 </div><!-- /.navbar-collapse -->
-EOD;
-        /*$menus.="Current filters: ";
-        foreach ($post['filters'] as $key => $value) {
-            $menus.=$value . ' | ';
-        }
-         */
-$menus.= <<<'EOD'
 </div><!-- /.container-fluid -->
-  </nav>'
+</nav>
+<div class="container">
+<ol class="breadcrumb">
 EOD;
+        $menus.="<b>Filters:</b> ";
+        foreach ($post['filters'] as $key => $value) {
+            $menus.='<li>' . $value . '</li> ';
+        }
+        $menus.='</ol></div>';
         return $menus;
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */
