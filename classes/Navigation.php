@@ -50,6 +50,8 @@ EOD;
             $menus.='</ul></li>';
         }
 
+// TODO: Implement Submit button for WCAG compliance
+
 // Close drop down menus and list About menu to right
 $menus.= <<<'EOD'
 </ul>
@@ -64,8 +66,11 @@ $menus.= <<<'EOD'
 <ol class="breadcrumb">
 EOD;
         $menus.="<b>Filters:</b> ";
+        if(count($post['filters']) == 0) {
+            $menus.='<i>none</i>';
+        }
         foreach ($post['filters'] as $key => $value) {
-            $menus.='<li>' . $value . '</li> ';
+            $menus.='<li>' . str_replace('_', ' ', $value) . '</li> ';
         }
         $menus.='</ol></div>';
         return $menus;
