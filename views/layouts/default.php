@@ -25,3 +25,6 @@
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
+<?php
+/* vim:set noexpandtab tabstop=4 sw=4: */
+?>
