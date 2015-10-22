@@ -5,7 +5,8 @@ require_once(APP_PATH . 'classes/Navigation.php');
 class AboutController extends AppController {
     public function actionIndex() {
         $this->navigation = new Navigation;
-        $this->setVar('nav', $this->navigation->getMenus($this->get));
+        // Set Navigation to display for about page by specifying second arg as 1
+        $this->setVar('nav', $this->navigation->getMenus($this->get, 1));
     }
 }
 ?>
