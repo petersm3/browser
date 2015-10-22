@@ -2,7 +2,7 @@
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
 class Navigation {
-    public function getMenus($get) {
+    public function getMenus($get, $about = 0) {
         // Dynamically construct drop downs
         $categories = array("Creator", "Photographer", "Style Period", "Work Type", "Region", "Rights", "Format");
         
@@ -25,29 +25,29 @@ $menus.= <<<'EOD'
 <form method="post" action="/filter">
 <ul class="nav navbar-nav">
 EOD;
-
-        // Itterate through each pre-defined category in order and construct drop-down
-        foreach ($categories as $category) {
-            $categoryUnderscore = str_replace(' ', '_', $category); // Avoid spaces in GET
-            // $i integer needs to replaced with a table query for category in question
-            $menus.='<li class="dropdown">';
-            $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-            $menus.=$category;
-            $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
-            for ($i = 1; $i <= 10; $i++) {
-            $checked='';
-            // Not handling 2 checks of the same category
-            foreach ($get['filter'] as $filter) {
-                if ("$filter" == "$categoryUnderscore:$i") {
-                    $checked='checked';
+        if(!$about) {
+            // Itterate through each pre-defined category in order and construct drop-down
+            foreach ($categories as $category) {
+                $categoryUnderscore = str_replace(' ', '_', $category); // Avoid spaces in GET
+                // $i integer needs to replaced with a table query for category in question
+                $menus.='<li class="dropdown">';
+                $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                $menus.=$category;
+                $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
+                for ($i = 1; $i <= 10; $i++) {
+                $checked='';
+                foreach ($get['filter'] as $filter) {
+                    if ("$filter" == "$categoryUnderscore:$i") {
+                        $checked='checked';
+                    }
                 }
+                $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
+                $menus.=' name="filters[]" value="' . $categoryUnderscore.':'.$i;
+                $menus.='" onchange="this.form.submit();"> ' . $i;
+                $menus.='</li>';
+                }
+                $menus.='</ul></li>';
             }
-            $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
-            $menus.=' name="filters[]" value="' . $categoryUnderscore.':'.$i;
-            $menus.='" onchange="this.form.submit();"> ' . $i;
-            $menus.='</li>';
-            }
-            $menus.='</ul></li>';
         }
 
 // TODO: Implement Submit button for WCAG compliance
@@ -63,16 +63,21 @@ $menus.= <<<'EOD'
 </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-<ol class="breadcrumb">
 EOD;
-        $menus.="<b>Filters:</b> ";
-        if(count($get) == 0) {
-            $menus.='<i>none</i>';
+        // Display currently applied filters
+        if(!$about) {
+            $menus.='<ol class="breadcrumb">';
+            $menus.="<b>Filters:</b> ";
+            if(count($get) == 0) {
+                $menus.='<i>none</i>';
+            }
+            foreach ($get['filter'] as $filter) {
+                $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
+            }
+            $menus.='</ol>';
         }
-        foreach ($get['filter'] as $filter) {
-            $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
-        }
-        $menus.='</ol></div>';
+        $menus.='</div>'; // Close container
+
         return $menus;
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */
