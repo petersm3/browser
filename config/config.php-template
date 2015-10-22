@@ -4,7 +4,7 @@
 // Used by classes/Database.php
 define('MYSQL_HOSTNAME', 'localhost');
 define('MYSQL_DATABASE', 'browser');
-define('MYSQL_USERNAME', 'browser_user');
+define('MYSQL_USERNAME', 'browser_www');
 define('MYSQL_PASSWORD', '**********');
 ?>
 

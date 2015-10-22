@@ -36,5 +36,14 @@ class Database {
     }
 }
 
+/* MySQL Setup Commands (as MySQL root user)
+ * create database browser;
+ * // MYSQL_USERNAME and MYSQL_PASSWORD derived from config/config.php
+ * CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
+ * e.g.,
+ * CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
+ * GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
+ */
+
 /* vim:set noexpandtab tabstop=4 sw=4: */
 ?>
