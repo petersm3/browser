@@ -2,7 +2,7 @@
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
 class Navigation {
-    public function getMenus($get, $post) {
+    public function getMenus($get) {
         // Dynamically construct drop downs
         $categories = array("Creator", "Photographer", "Style Period", "Work Type", "Region", "Rights", "Format");
         
@@ -22,7 +22,7 @@ $menus.= <<<'EOD'
 <a class="navbar-brand" href="/">Browser <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<form method="post" action="/">
+<form method="post" action="/filter">
 <ul class="nav navbar-nav">
 EOD;
 
@@ -37,8 +37,8 @@ EOD;
             for ($i = 1; $i <= 10; $i++) {
             $checked='';
             // Not handling 2 checks of the same category
-            foreach ($post['filters'] as $key => $value) {
-                if ("$value" == "$categoryUnderscore:$i") {
+            foreach ($get['filter'] as $filter) {
+                if ("$filter" == "$categoryUnderscore:$i") {
                     $checked='checked';
                 }
             }
@@ -66,11 +66,11 @@ $menus.= <<<'EOD'
 <ol class="breadcrumb">
 EOD;
         $menus.="<b>Filters:</b> ";
-        if(count($post['filters']) == 0) {
+        if(count($get) == 0) {
             $menus.='<i>none</i>';
         }
-        foreach ($post['filters'] as $key => $value) {
-            $menus.='<li>' . str_replace('_', ' ', $value) . '</li> ';
+        foreach ($get['filter'] as $filter) {
+            $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
         }
         $menus.='</ol></div>';
         return $menus;

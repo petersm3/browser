@@ -1,4 +1,5 @@
 <?php
+require_once(APP_PATH . 'classes/Navigation.php');
 
 class PageController extends AppController
 {
@@ -6,7 +7,7 @@ class PageController extends AppController
 	{
         $this->navigation = new Navigation;
         // Need to past LightVC get and post for navigation to parse
-        $this->setVar('nav', $this->navigation->getMenus($this->get, $this->post));
+        $this->setVar('nav', $this->navigation->getMenus($this->get));
 
 		if (strpos($pageName, '../') !== false)
 		{

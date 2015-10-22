@@ -1,6 +1,4 @@
 <?php
-// Faceted Navigation class
-require_once(APP_PATH . 'classes/Navigation.php');
 
 class AppController extends Lvc_PageController
 {
@@ -10,7 +8,6 @@ class AppController extends Lvc_PageController
 	{
 		$this->setLayoutVar('pageTitle', 'Untitled');
 		//$this->requireCss('master.css');
-        $this->navigation = new Navigation;
 	}
 	
 	public function requireCss($cssFile)
