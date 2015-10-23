@@ -36,9 +36,11 @@ EOD;
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
                 for ($i = 1; $i <= 10; $i++) {
                 $checked='';
-                foreach ($get['filter'] as $filter) {
-                    if ("$filter" == "$categoryUnderscore:$i") {
-                        $checked='checked';
+                if (isset($get['filter'])) {
+                    foreach ($get['filter'] as $filter) {
+                        if ("$filter" == "$categoryUnderscore:$i") {
+                            $checked='checked';
+                        }
                     }
                 }
                 $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
@@ -68,11 +70,12 @@ EOD;
         if(!$about) {
             $menus.='<ol class="breadcrumb">';
             $menus.="<b>Filters:</b> ";
-            if(count($get) == 0) {
-                $menus.='<i>none</i>';
-            }
-            foreach ($get['filter'] as $filter) {
-                $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
+            if(isset($get['filter'])) {
+                foreach ($get['filter'] as $filter) {
+                    $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
+                }
+            } else {
+                $menus.='<i>none</i>'; // No filters applied; home screen
             }
             $menus.='</ol>';
         }
