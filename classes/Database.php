@@ -54,17 +54,27 @@ class Database {
  // Creator = 1, Photographer = 2, Style Period = 3, Work Type = 4, etc.
  CREATE TABLE `category_filters` (
   `id` int(2) NOT NULL auto_increment,
-  `priority` int(2) NOT NULL,
-  `category` varchar(256) NOT NULL,
-  `filter` varchar(256) NOT NULL,
-  `comment` varchar(1024),
-  PRIMARY KEY  (`id`)
+  `priority` INT(2) NOT NULL,
+  `category` VARCHAR(256) NOT NULL,
+  `subcategory` VARCHAR(256) NOT NULL,
+  `comment` VARCHAR(1024),
+  PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
  Example insert
  INSERT INTO category_filters (priority, category, filter) VALUES (1, 'Creator', 'Lawrence, Ellis Fuller');
  INSERT INTO category_filters (priority, category, filter) VALUES (3, 'Style Period', 'Art Deco');
-*/
+
+ CREATE TABLE `properties` (
+ `id` int(6) NOT NULL,
+ `fk_category_filters_id` INT(2) NOT NULL,
+ `street_address` VARCHAR(256) NOT NULL,
+ `photographer` VARCHAR(256),
+ `date` VARCHAR(256),
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (fk_category_filters_id) REFERENCES category_filters(id)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ */
  
 /* vim:set noexpandtab tabstop=4 sw=4: */
 ?>

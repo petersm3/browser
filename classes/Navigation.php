@@ -44,18 +44,18 @@ EOD;
                 $menus.=' role="button" aria-haspopup="true" aria-expanded="false">';
                 $menus.=$category['category'];
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
-                // Get each individual filter (sub-category) per the current category
-                $categoryFilters = $this->navigationDatabase->getFilters($category['category']);
-                foreach ($categoryFilters as $categoryFilter) {
-                    $categoryFilterUnderscore = str_replace(' ', '_', $categoryFilter['filter']); // Avoid spaces
-                    $categoryFilterEncode = urlencode($categoryFilterUnderscore); // encode &
+                // Get each individual subcategories per the current category
+                $subCategories = $this->navigationDatabase->getSubCategories($category['category']);
+                foreach ($subCategories as $subCategory) {
+                    $subCategoryUnderscore = str_replace(' ', '_', $subCategory['subcategory']); // Avoid spaces
+                    $subCategoryEncode = urlencode($subCategoryUnderscore); // encode &
                     $checked='';
                     if (isset($get['filter'])) {
                         // If the filter was previouly checked as shown by the current
                         // GET string then re-check it on the current display
-                        foreach ($get['filter'] as $filter) {
-                            $filterEncode = urlencode($filter); // Encode filter from GET to match below
-                            if ("$filterEncode" == $categoryUnderscore . $colon . $categoryFilterEncode) {
+                        foreach ($get['filter'] as $getFilter) {
+                            $getFilterEncode = urlencode($getFilter); // Encode filter from GET to match below
+                            if ("$getFilterEncode" == $categoryUnderscore . $colon . $subCategoryEncode) {
                                 $checked='checked';
                             }
                         }
@@ -63,16 +63,16 @@ EOD;
                     // Previously checked item determined from GET string above
                     $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
                     // id necessary to match label tag below
-                    $menus.=' name="filters[]" id="' . $categoryUnderscore . $colon . $categoryFilterEncode;
+                    $menus.=' name="filters[]" id="' . $categoryUnderscore . $colon . $subCategoryEncode;
                     // value for filters[] is represented as category:filter
-                    $menus.='" value="' . $categoryUnderscore . $colon . $categoryFilterEncode;
+                    $menus.='" value="' . $categoryUnderscore . $colon . $subCategoryEncode;
                     // Resubmit and update screen on every new check/un-check
                     $menus.='" onchange="this.form.submit();"> ';
                     // Enable text to be clickable along with checkbox
                     // Override bootstrap's default bold style of labels
                     $menus.='<label style="font-weight:normal !important;" for="';
-                    $menus.=$categoryUnderscore . $colon . $categoryFilterEncode . '">';
-                    $menus.=$categoryFilter['filter'] . '</label>';
+                    $menus.=$categoryUnderscore . $colon . $subCategoryEncode . '">';
+                    $menus.=$subCategory['subcategory'] . '</label>';
                     $menus.='</li>';
                 }
                 $menus.='</ul></li>';
@@ -92,7 +92,7 @@ $menus.= <<<'EOD'
 </nav>
 <div class="container">
 EOD;
-        // Display currently applied filters
+        // Display currently applied filters on main page (not About page)
         if(!$about) {
             $menus.='<ol class="breadcrumb">';
             if(isset($get['filter'])) {

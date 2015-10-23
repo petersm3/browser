@@ -13,15 +13,15 @@ class NavigationDatabase {
     // Obtain all categories sorted by priority
     public function getCategories() {
         // categories have a `priority` order assigned in the schema for nav display
-        $sql = "SELECT DISTINCT category FROM category_filters ORDER BY priority";
+        $sql = "SELECT DISTINCT category FROM categories ORDER BY priority";
         $st = $this->dbh->prepare($sql);
         $st->execute();
         return $st->fetchAll();
     }
 
     // Obtain all filters (sub-categories) per single category; unsorted
-    public function getFilters($category) {
-        $sql = "SELECT filter FROM category_filters WHERE category = ?";
+    public function getSubCategories($category) {
+        $sql = "SELECT subcategory FROM categories WHERE category = ?";
         $st = $this->dbh->prepare($sql);
         $values = array($category);
         $st->execute($values);

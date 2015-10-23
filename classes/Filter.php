@@ -2,8 +2,10 @@
 class Filter {
     public function parse($post) {
         $getFilters='';
-        foreach ($post['filters'] as $key => $value) {
-            $getFilters.='filter[]=' . $value . '&';
+        if(isset($post['filters'])) {
+            foreach ($post['filters'] as $key => $value) {
+                $getFilters.='filter[]=' . $value . '&';
+            }
         }
         // Do not need trailing &
         return substr($getFilters, 0, -1);
