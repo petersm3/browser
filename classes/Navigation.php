@@ -104,6 +104,11 @@ EOD;
             }
             $menus.='</ol>';
         }
+        if(!isset($get['filter'])) {
+            $menus.='<div class="jumbotron">';
+            $menus.='Select filters from the dropdown categories above to being you search.';
+            $menus.='</div>';
+        }
         $menus.='</div>'; // Close container
 
         return $menus;
