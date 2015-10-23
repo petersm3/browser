@@ -37,30 +37,34 @@ class Database {
 }
 
 /* MySQL Setup Commands (as MySQL root user)
- *
- * Modify MySQL configuration to enforce NOT NULL constraint (restart after change)
- * grep -A1 '\[mysqld\]' /etc/mysql/my.cnf 
- * [mysqld]
- * sql_mode="STRICT_ALL_TABLES"
- *
- * create database browser;
- * // MYSQL_USERNAME and MYSQL_PASSWORD derived from config/config.php
- * CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
- * e.g.,
- * CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
- * GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
- *
+
+ Modify MySQL configuration to enforce NOT NULL constraint (restart after change)
+ grep -A1 '\[mysqld\]' /etc/mysql/my.cnf 
+ [mysqld]
+ sql_mode="STRICT_ALL_TABLES"
+
+ create database browser;
+ // MYSQL_USERNAME and MYSQL_PASSWORD derived from config/config.php
+ CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
+ e.g.,
+ CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
+ GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
+
+ // `priority` implies the priority the category is listed in Navigation, e.g.,
+ // Creator = 1, Photographer = 2, Style Period = 3, Work Type = 4, etc.
  CREATE TABLE `category_filters` (
   `id` int(2) NOT NULL auto_increment,
+  `priority` int(2) NOT NULL,
   `category` varchar(256) NOT NULL,
   `filter` varchar(256) NOT NULL,
   `comment` varchar(1024),
   PRIMARY KEY  (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
- * Example insert
- * INSERT INTO category_filters (category, filter) VALUES ('Creator', 'Lawrence, Ellis Fuller');
- */
+ Example insert
+ INSERT INTO category_filters (priority, category, filter) VALUES (1, 'Creator', 'Lawrence, Ellis Fuller');
+ INSERT INTO category_filters (priority, category, filter) VALUES (3, 'Style Period', 'Art Deco');
+*/
  
 /* vim:set noexpandtab tabstop=4 sw=4: */
 ?>

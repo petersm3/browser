@@ -8,18 +8,9 @@ require_once(APP_PATH . 'classes/NavigationDatabase.php');
 class Navigation {
     public function getMenus($get, $about = 0) {
 
-                $this->database = new Database;
-                $this->dbh = $this->database->getConnection();
-                $this->navigationDatabase = new NavigationDatabase($this->dbh);
-
-                //print_r($this->$dbh->getCategoryFilters());
-        // Dynamically construct drop downs
-        $categories = array("Creator", "Photographer", "Style Period", "Work Type", "Region", "Rights", "Format");
-
-$categoryFilters = $this->navigationDatabase->getCategoryFilters();
-foreach($categoryFilters as $categoryFilter) {
-    echo $categoryFilter['category'] . ' -> '. $categoryFilter['filter'] . '<br/>';
-}
+        $this->database = new Database;
+        $this->dbh = $this->database->getConnection(); // Get database handle
+        $this->navigationDatabase = new NavigationDatabase($this->dbh); // Nav queries
 
         $menus='';
 
@@ -41,27 +32,32 @@ $menus.= <<<'EOD'
 <ul class="nav navbar-nav">
 EOD;
         if(!$about) {
+            // Obtain a listing of all top-level categories (unique)
+            $categories = $this->navigationDatabase->getCategories();
             // Itterate through each pre-defined category in order and construct drop-down
             foreach ($categories as $category) {
-                $categoryUnderscore = str_replace(' ', '_', $category); // Avoid spaces in GET
+                $categoryUnderscore = str_replace(' ', '_', $category['category']); // Avoid spaces in GET
                 // $i integer needs to replaced with a table query for category in question
                 $menus.='<li class="dropdown">';
                 $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-                $menus.=$category;
+                $menus.=$category['category'];
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
                 for ($i = 1; $i <= 10; $i++) {
-                $checked='';
-                if (isset($get['filter'])) {
-                    foreach ($get['filter'] as $filter) {
-                        if ("$filter" == "$categoryUnderscore:$i") {
-                            $checked='checked';
+                    $checked='';
+                    if (isset($get['filter'])) {
+                        foreach ($get['filter'] as $filter) {
+                            if ("$filter" == "$categoryUnderscore:$i") {
+                                $checked='checked';
+                            }
                         }
                     }
-                }
-                $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
-                $menus.=' name="filters[]" value="' . $categoryUnderscore.':'.$i;
-                $menus.='" onchange="this.form.submit();"> ' . $i;
-                $menus.='</li>';
+                    $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
+                    $menus.=' name="filters[]" id="' . $categoryUnderscore.':'.$i .'" value="' . $categoryUnderscore .':' .$i;
+                    $menus.='" onchange="this.form.submit();"> ';
+                    // Enable text to be clickable along with checkbox
+                    // Override bootstrap's default bold style of labels
+                    $menus.='<label style="font-weight:normal !important;" for="' . $categoryUnderscore.':'.$i . '">' . $i . '</label>';
+                    $menus.='</li>';
                 }
                 $menus.='</ul></li>';
             }
@@ -84,13 +80,12 @@ EOD;
         // Display currently applied filters
         if(!$about) {
             $menus.='<ol class="breadcrumb">';
-            $menus.="<b>Filters:</b> ";
             if(isset($get['filter'])) {
                 foreach ($get['filter'] as $filter) {
                     $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
                 }
             } else {
-                $menus.='<i>none</i>'; // No filters applied; home screen
+                $menus.= '<li>Filters: <i>none</i>';
             }
             $menus.='</ol>';
         }
