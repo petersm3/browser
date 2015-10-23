@@ -77,11 +77,11 @@ EOD;
                 }
                 $menus.='</ul></li>';
             }
+            $menus.='<li><button type="submit" class="btn btn-link">Submit</button></li>';
         }
 
 // Close drop down menus and list About menu to right
 $menus.= <<<'EOD'
-<li><button type="submit" class="btn btn-link">Submit</button></li>
 </ul>
 </form>
 <ul class="nav navbar-nav navbar-right">
@@ -103,11 +103,13 @@ EOD;
                 $menus.= '<li>Filters: <i>none</i></li>';
             }
             $menus.='</ol>';
-        }
-        if(!isset($get['filter'])) {
-            $menus.='<div class="jumbotron">';
-            $menus.='Select filters from the dropdown categories above to being you search.';
-            $menus.='</div>';
+
+            // If no filters show a default message
+            if(!isset($get['filter'])) {
+                $menus.='<div class="jumbotron">';
+                $menus.='Select filters from the dropdown categories above to being you search.';
+                $menus.='</div>';
+            }
         }
         $menus.='</div>'; // Close container
 
