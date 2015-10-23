@@ -1,6 +1,4 @@
 <?php
-require_once(APP_PATH . 'config/config.php');
-require_once(APP_PATH . 'classes/Database.php');
 require_once(APP_PATH . 'classes/Navigation.php');
 
 class PageController extends AppController
@@ -9,10 +7,7 @@ class PageController extends AppController
 	private $dbh;
 
 	protected function beforeAction() {
-       
-	//	parent::beforeAction(); // chain to parent
-		$this->database = new Database;
-	    $this->dbh = $this->database->getConnection();
+	    // parent::beforeAction(); // chain to parent
     }
 
 	public function actionView($pageName = 'home')

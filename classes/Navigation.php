@@ -1,11 +1,26 @@
 <?php
+require_once(APP_PATH . 'config/config.php');
+require_once(APP_PATH . 'classes/Database.php');
+require_once(APP_PATH . 'classes/NavigationDatabase.php');
+
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
 class Navigation {
     public function getMenus($get, $about = 0) {
+
+                $this->database = new Database;
+                $this->dbh = $this->database->getConnection();
+                $this->navigationDatabase = new NavigationDatabase($this->dbh);
+
+                //print_r($this->$dbh->getCategoryFilters());
         // Dynamically construct drop downs
         $categories = array("Creator", "Photographer", "Style Period", "Work Type", "Region", "Rights", "Format");
-        
+
+$categoryFilters = $this->navigationDatabase->getCategoryFilters();
+foreach($categoryFilters as $categoryFilter) {
+    echo $categoryFilter['category'] . ' -> '. $categoryFilter['filter'] . '<br/>';
+}
+
         $menus='';
 
 $menus.= <<<'EOD'
