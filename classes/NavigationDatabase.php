@@ -19,10 +19,10 @@ class NavigationDatabase {
     }
 
     public function getFilters($category) {
-        $sql = "SELECT filters FROM category_filters WHERE category = ?";
+        $sql = "SELECT filter FROM category_filters WHERE category = ?";
         $st = $this->dbh->prepare($sql);
         $values = array($category);
-        $st->execute();
+        $st->execute($values);
         return $st->fetchAll();
     }
 }

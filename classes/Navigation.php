@@ -10,8 +10,9 @@ class Navigation {
 
         $this->database = new Database;
         $this->dbh = $this->database->getConnection(); // Get database handle
-        $this->navigationDatabase = new NavigationDatabase($this->dbh); // Nav queries
+        $this->navigationDatabase = new NavigationDatabase($this->dbh); // Navigation related queries
 
+        $colon='%3A'; // urlencode(':')
         $menus='';
 
 $menus.= <<<'EOD'
@@ -42,21 +43,31 @@ EOD;
                 $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
                 $menus.=$category['category'];
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
-                for ($i = 1; $i <= 10; $i++) {
+                // Get each individual filter per the current category
+                $category_filters = $this->navigationDatabase->getFilters($category['category']);
+                foreach ($category_filters as $category_filter) {
+                    $categoryFilterUnderscore = str_replace(' ', '_', $category_filter['filter']); // Avoid spaces
+                    $categoryFilterEncode = urlencode($categoryFilterUnderscore);
                     $checked='';
                     if (isset($get['filter'])) {
+                        // If the filter was previouly checked as shown by the current GET string
+                        // then re-check it on the current display
                         foreach ($get['filter'] as $filter) {
-                            if ("$filter" == "$categoryUnderscore:$i") {
+                            $filterEncode = urlencode($filter);
+                            if ("$filterEncode" == $categoryUnderscore . $colon . $categoryFilterEncode) {
                                 $checked='checked';
                             }
                         }
                     }
                     $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
-                    $menus.=' name="filters[]" id="' . $categoryUnderscore.':'.$i .'" value="' . $categoryUnderscore .':' .$i;
+                    $menus.=' name="filters[]" id="' . $categoryUnderscore . $colon . $categoryFilterEncode;
+                    $menus.='" value="' . $categoryUnderscore . $colon . $categoryFilterEncode;
                     $menus.='" onchange="this.form.submit();"> ';
                     // Enable text to be clickable along with checkbox
                     // Override bootstrap's default bold style of labels
-                    $menus.='<label style="font-weight:normal !important;" for="' . $categoryUnderscore.':'.$i . '">' . $i . '</label>';
+                    $menus.='<label style="font-weight:normal !important;" for="';
+                    $menus.=$categoryUnderscore . $colon . $categoryFilterEncode . '">';
+                    $menus.=$category_filter['filter'] . '</label>';
                     $menus.='</li>';
                 }
                 $menus.='</ul></li>';
