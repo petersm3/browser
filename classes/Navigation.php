@@ -29,55 +29,59 @@ $menus.= <<<'EOD'
 <a class="navbar-brand" href="/">Browser <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<form method="post" action="/filter">
+<form method="post" action="/filter" class="navbar-form navbar-left">
 <ul class="nav navbar-nav">
 EOD;
+
         if(!$about) {
-            // Obtain a listing of all top-level categories (unique)
+            // Obtain a listing of all (unique) top-level categories
             $categories = $this->navigationDatabase->getCategories();
             // Itterate through each pre-defined category in order and construct drop-down
             foreach ($categories as $category) {
                 $categoryUnderscore = str_replace(' ', '_', $category['category']); // Avoid spaces in GET
-                // $i integer needs to replaced with a table query for category in question
                 $menus.='<li class="dropdown">';
-                $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" ';
+                $menus.=' role="button" aria-haspopup="true" aria-expanded="false">';
                 $menus.=$category['category'];
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
-                // Get each individual filter per the current category
-                $category_filters = $this->navigationDatabase->getFilters($category['category']);
-                foreach ($category_filters as $category_filter) {
-                    $categoryFilterUnderscore = str_replace(' ', '_', $category_filter['filter']); // Avoid spaces
-                    $categoryFilterEncode = urlencode($categoryFilterUnderscore);
+                // Get each individual filter (sub-category) per the current category
+                $categoryFilters = $this->navigationDatabase->getFilters($category['category']);
+                foreach ($categoryFilters as $categoryFilter) {
+                    $categoryFilterUnderscore = str_replace(' ', '_', $categoryFilter['filter']); // Avoid spaces
+                    $categoryFilterEncode = urlencode($categoryFilterUnderscore); // encode &
                     $checked='';
                     if (isset($get['filter'])) {
-                        // If the filter was previouly checked as shown by the current GET string
-                        // then re-check it on the current display
+                        // If the filter was previouly checked as shown by the current
+                        // GET string then re-check it on the current display
                         foreach ($get['filter'] as $filter) {
-                            $filterEncode = urlencode($filter);
+                            $filterEncode = urlencode($filter); // Encode filter from GET to match below
                             if ("$filterEncode" == $categoryUnderscore . $colon . $categoryFilterEncode) {
                                 $checked='checked';
                             }
                         }
                     }
+                    // Previously checked item determined from GET string above
                     $menus.='<li>&nbsp;<input type="checkbox" ' . $checked;
+                    // id necessary to match label tag below
                     $menus.=' name="filters[]" id="' . $categoryUnderscore . $colon . $categoryFilterEncode;
+                    // value for filters[] is represented as category:filter
                     $menus.='" value="' . $categoryUnderscore . $colon . $categoryFilterEncode;
+                    // Resubmit and update screen on every new check/un-check
                     $menus.='" onchange="this.form.submit();"> ';
                     // Enable text to be clickable along with checkbox
                     // Override bootstrap's default bold style of labels
                     $menus.='<label style="font-weight:normal !important;" for="';
                     $menus.=$categoryUnderscore . $colon . $categoryFilterEncode . '">';
-                    $menus.=$category_filter['filter'] . '</label>';
+                    $menus.=$categoryFilter['filter'] . '</label>';
                     $menus.='</li>';
                 }
                 $menus.='</ul></li>';
             }
         }
 
-// TODO: Implement Submit button for WCAG compliance
-
 // Close drop down menus and list About menu to right
 $menus.= <<<'EOD'
+<li><button type="submit" class="btn btn-link">Submit</button></li>
 </ul>
 </form>
 <ul class="nav navbar-nav navbar-right">
@@ -96,7 +100,7 @@ EOD;
                     $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
                 }
             } else {
-                $menus.= '<li>Filters: <i>none</i>';
+                $menus.= '<li>Filters: <i>none</i></li>';
             }
             $menus.='</ol>';
         }
