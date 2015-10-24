@@ -91,8 +91,8 @@ EOD;
                     $categoryId = $this->displayDatabase->getCategoriesId($categoryRaw, $subCategoryRaw);
                     array_push($categoryIds, $categoryId['id']);
                     $filterMatches = $this->displayDatabase->getFilterMatches($categoryIds);
-                    $menus.= '&nbsp;&nbsp;' . count($filterMatches);
-                    $menus.='<label></li>';
+                    $menus.= '&nbsp;&nbsp;<span class="badge">' . count($filterMatches);
+                    $menus.='</span><label></li>';
                 }
                 $menus.='</ul></li>';
             }
