@@ -5,7 +5,11 @@ $this->setLayoutVar('pageTitle', 'About');
 <div class="container">
 <ul>
   <li>Author: Matthew Peterson <a href="mailto:petersm3@oregonstate.edu">petersm3@oregonstate.edu</a></li>
-  <li>Project: Image and cultural properties browser</li>
+  <li>Project: Image and cultural properties browser
+      <ul>
+          <li>Emulating front-end interface of <a target="_blank" href="http://buildingoregon.org/">http://buildingoregon.org/</a></li>
+      </ul>
+  </li>
   <li>GitHub: <a target="_blank" href="https://github.com/petersm3/browser">https://github.com/petersm3/browser</a></li>
   <li>Technologies used:
       <ul>

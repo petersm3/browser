@@ -1,5 +1,6 @@
 <?php
 require_once(APP_PATH . 'classes/NavigationDatabase.php');
+require_once(APP_PATH . 'classes/DisplayDatabase.php');
 
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
@@ -7,6 +8,7 @@ class Navigation {
     public function getMenus($get, $dbh = null, $about = 0) {
 
         $this->navigationDatabase = new NavigationDatabase($dbh);
+        $this->displayDatabase = new DisplayDatabase($dbh);
 
         $colon='%3A'; // urlencode(':')
         $menus='';
@@ -34,16 +36,18 @@ EOD;
             $categories = $this->navigationDatabase->getCategories();
             // Itterate through each pre-defined category in order and construct drop-down
             foreach ($categories as $category) {
-                $categoryUnderscore = str_replace(' ', '_', $category['category']); // Avoid spaces in GET
+                $categoryRaw = $category['category'];
+                $categoryUnderscore = str_replace(' ', '_', $categoryRaw); // Avoid spaces in GET
                 $menus.='<li class="dropdown">';
                 $menus.='<a href="#" class="dropdown-toggle" data-toggle="dropdown" ';
                 $menus.=' role="button" aria-haspopup="true" aria-expanded="false">';
                 $menus.=$category['category'];
                 $menus.='<span class="caret"></span></a><ul class="dropdown-menu">';
                 // Get each individual subcategories per the current category
-                $subCategories = $this->navigationDatabase->getSubCategories($category['category']);
+                $subCategories = $this->navigationDatabase->getSubCategories($categoryRaw);
                 foreach ($subCategories as $subCategory) {
-                    $subCategoryUnderscore = str_replace(' ', '_', $subCategory['subcategory']); // Avoid spaces
+                    $subCategoryRaw = $subCategory['subcategory'];
+                    $subCategoryUnderscore = str_replace(' ', '_', $subCategoryRaw); // Avoid spaces
                     $subCategoryEncode = urlencode($subCategoryUnderscore); // encode &
                     $checked='';
                     if (isset($get['filter'])) {
@@ -68,8 +72,27 @@ EOD;
                     // Override bootstrap's default bold style of labels
                     $menus.='<label style="font-weight:normal !important;" for="';
                     $menus.=$categoryUnderscore . $colon . $subCategoryEncode . '">';
-                    $menus.=$subCategory['subcategory'] . '</label>';
-                    $menus.='</li>';
+                    $menus.=$subCategoryRaw;
+
+                    // Given current search filters applied project what adding this additional
+                    // filter would yield in total results.
+                    $categoryIds = array();
+                    if(isset($get['filter'])) {
+                        foreach ($get['filter'] as $getFilter) {
+                            // Filter is specified as category:subcategory
+                            $categorySubcategory = explode(":", $getFilter);
+                            $category = $categorySubcategory[0];
+                            $subcategory = $categorySubcategory[1];
+                            $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
+                            array_push($categoryIds, $categoryId['id']);
+                        }
+                    }
+                    // Add curent unselected filter to array to generate possible set of return accessions
+                    $categoryId = $this->displayDatabase->getCategoriesId($categoryRaw, $subCategoryRaw);
+                    array_push($categoryIds, $categoryId['id']);
+                    $filterMatches = $this->displayDatabase->getFilterMatches($categoryIds);
+                    $menus.= '(' . count($filterMatches) . ')';
+                    $menus.='<label></li>';
                 }
                 $menus.='</ul></li>';
             }
