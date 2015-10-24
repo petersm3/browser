@@ -14,7 +14,8 @@ class PageController extends AppController
 	{
         $this->navigation = new Navigation;
         // Need to past LightVC get and post for navigation to parse
-        $this->setVar('nav', $this->navigation->getMenus($this->get));
+        $this->setVar('navigation', $this->navigation->getMenus($this->get));
+        $this->setVar('results', '');
 
 		if (strpos($pageName, '../') !== false)
 		{

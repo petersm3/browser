@@ -1,7 +1,7 @@
 <?php
 $this->setLayoutVar('pageTitle', 'About');
 ?>
-<?php echo $nav ?>
+<?php echo $navigation ?>
 <div class="container">
 <ul>
   <li>Author: Matthew Peterson <a href="mailto:petersm3@oregonstate.edu">petersm3@oregonstate.edu</a></li>
