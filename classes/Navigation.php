@@ -1,16 +1,12 @@
 <?php
-require_once(APP_PATH . 'config/config.php');
-require_once(APP_PATH . 'classes/Database.php');
 require_once(APP_PATH . 'classes/NavigationDatabase.php');
 
 // Create Faceted Navigation header
 // Intercepts previously checked items and repopulates check boxes
 class Navigation {
-    public function getMenus($get, $about = 0) {
+    public function getMenus($get, $dbh = null, $about = 0) {
 
-        $this->database = new Database;
-        $this->dbh = $this->database->getConnection(); // Get database handle
-        $this->navigationDatabase = new NavigationDatabase($this->dbh); // Navigation related queries
+        $this->navigationDatabase = new NavigationDatabase($dbh);
 
         $colon='%3A'; // urlencode(':')
         $menus='';
