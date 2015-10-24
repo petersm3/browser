@@ -10,6 +10,15 @@ class DisplayDatabase {
         parent::beforeAction(); // chain to parent
     }
 
+    // Lookup function to get primary key for each filter specified
+    public function getCategoriesId($category, $subcategory) {
+        $sql="SELECT id FROM categories where category = ? and subcategory = ?";
+        $st = $this->dbh->prepare($sql);
+        $values = array($category, $subcategory);
+        $st->execute($values);
+        return $st->fetch();
+    }
+
     // Obtain a list of accessions that match the filter criteria exactly
     public function getFilterMatches($categoriesIds) {
         // http://stackoverflow.com/questions/920353/can-i-bind-an-array-to-an-in-condition
