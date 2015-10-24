@@ -50,9 +50,14 @@ class Database {
  CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
  GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
 
- // `priority` implies the priority the category is listed in Navigation, e.g.,
- // Creator = 1, Photographer = 2, Style Period = 3, Work Type = 4, etc.
- CREATE TABLE `category_filters` (
+  -- TABLE categories
+  -- `priority` implies the priority the category is listed in Navigation, e.g.,
+  -- Creator = 1, Photographer = 2, Style Period = 3, Work Type = 4, etc.
+  -- Example INSERT:
+  -- INSERT INTO categories (priority, category, subcategory) VALUES (1, 'Creator', 'Lawrence, Ellis Fuller');
+  -- INSERT INTO categories (priority, category, subcategory) VALUES (3, 'Style Period', 'Art Deco');
+
+  CREATE TABLE `categories` (
   `id` int(2) NOT NULL auto_increment,
   `priority` INT(2) NOT NULL,
   `category` VARCHAR(256) NOT NULL,
@@ -61,19 +66,23 @@ class Database {
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
- Example insert
- INSERT INTO category_filters (priority, category, filter) VALUES (1, 'Creator', 'Lawrence, Ellis Fuller');
- INSERT INTO category_filters (priority, category, filter) VALUES (3, 'Style Period', 'Art Deco');
+  -- TABLE `filters`
+  -- Numbering of accession managed by program, e.g., SELECT MAX(accession) FROM filters;
+  -- An accession (new asset) can belong to several subcategories
+  -- Example INSERT:
+  -- INSERT INTO filters (accession, fk_category_id) VALUES (8, 1);
+  -- INSERT INTO filters (accession, fk_category_id) VALUES (8, 22);
+  -- Example query to find accessions matching the user supplied filters:
+  -- SELECT accession, COUNT(accession) as count_accession FROM filters WHERE fk_categories_id IN (<several categories.id seperated by commas>) GROUP BY accession HAVING count_accession = <total number of categories.id supplied>;
 
- CREATE TABLE `properties` (
- `id` int(6) NOT NULL,
- `fk_category_filters_id` INT(2) NOT NULL,
- `street_address` VARCHAR(256) NOT NULL,
- `photographer` VARCHAR(256),
- `date` VARCHAR(256),
+ CREATE TABLE `filters` (
+ `id` int(6) NOT NULL auto_increment,
+ `accession` int(7) NOT NULL,
+ `fk_categories_id` INT(2) NOT NULL,
  PRIMARY KEY (`id`),
- FOREIGN KEY (fk_category_filters_id) REFERENCES category_filters(id)
+ FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
  */
  
 /* vim:set noexpandtab tabstop=4 sw=4: */
