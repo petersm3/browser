@@ -66,6 +66,23 @@ class Database {
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  -- TABLE `properties`
+  -- Properties of 'Image', 'Street Address', 'Photographer', and 'Date' of each accession
+  -- NOTE: `id` will suffice as the unique identifier; better served by a unique accession
+  --       e.g., Some type of digital object identifier (DOI)
+  -- For images we're using randomly generated md5sum strings
+  -- Example INSERT:
+  -- INSERT INTO properties ('image', 'street_address', 'photographer', 'date') VALUES ('a14a23885b4730771459a530c79bed45', '123 NorthWest St.', null, '2013');
+
+  CREATE TABLE `properties` (
+  `id` int(7) NOT NULL auto_increment,
+  `image` VARCHAR(32) NOT NULL,
+  `street_address` VARCHAR(255) NOT NULL,
+  `photographer` VARCHAR(255),
+  `date` VARCHAR(255),
+  PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
   -- TABLE `filters`
   -- An accession (fk_properties_id) can belong to several subcategories
   -- Example INSERT:
@@ -75,7 +92,7 @@ class Database {
   -- SELECT fk_properties_id, COUNT(fk_properties_id) as count_fk_properties_id FROM filters WHERE fk_categories_id IN (<several categories.id seperated by commas>) GROUP BY fk_properties_id HAVING count_fk_properties_id = <total number of categories.id supplied>;
 
   CREATE TABLE `filters` (
-  `id` int(6) NOT NULL auto_increment,
+  `id` int(7) NOT NULL auto_increment,
   `fk_properties_id` int(7) NOT NULL,
   `fk_categories_id` INT(2) NOT NULL,
   PRIMARY KEY (`id`),
@@ -83,11 +100,7 @@ class Database {
   FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-  -- TABLE `properties`
-  -- Properties of 'Image', 'Street Address', 'Photographer', and 'Date' of each accession
-  -- Example INSERT:
-  -- INSERT
  */
- 
+
 /* vim:set noexpandtab tabstop=4 sw=4: */
 ?>
