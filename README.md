@@ -27,13 +27,13 @@ Image and cultural properties browser
     * This is necessary as the script assumes a certain order/offset from the auto increment primary keys.
 
 ## Apache
-Example is from Ubuntu /etc/apache2/sites-enabled/ configuration files
+Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 
 ### VHOST
 
 #### Browser
-* Per LightVC setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
-** Do not specify these variables as the top-level directory, e.g., `/data/www/browser`
+* Per LightVC (http://lightvc.org/) setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
+  * Do not specify these variables as the top-level directory, e.g., `/data/www/browser`
 * Define `<MY FQDN>`
 ```
 <VirtualHost *:80>
@@ -76,12 +76,12 @@ Example is from Ubuntu /etc/apache2/sites-enabled/ configuration files
 
 ### Content delivery network (CDN)
 * Simulate CDN by deploying "Dynamic Dummy Image Generator" (http://dummyimage.com/) to VHOST.
-  * The index.php is not required; code.php is required and referenced by .htaccess
+  * The `index.php` is not required; `code.php` is required and referenced by `.htaccess`
   * GD required, e.g., On Ubuntu: `apt-get install php5-gd`
 * Line 110 of code.php may need to have the explicit path to the font (on Ubuntu):
 * `$font = "/data/www/cdn/mplus-1c-medium.ttf";`
 
-### Browser cnfiguration
+### Application configuration
 * Copy https://github.com/petersm3/browser/blob/master/config/config.php-template to `config.php`
   * Configure values
   * User should be `browser_www` with only a GRANT to SELECT.
