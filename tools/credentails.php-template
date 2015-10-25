@@ -1,0 +1,10 @@
+<?php
+// Copy credentials.php-template to credentials.php and configure below variables
+
+// Used by tools/populate_database.php
+define('MYSQL_HOSTNAME', 'localhost');
+define('MYSQL_DATABASE', 'browser');
+define('MYSQL_USERNAME', 'root');
+define('MYSQL_PASSWORD', '**********');
+?>
+
