@@ -38,17 +38,17 @@ class Database {
 
 /* MySQL Setup Commands (as MySQL root user)
 
- Modify MySQL configuration to enforce NOT NULL constraint (restart after change)
- grep -A1 '\[mysqld\]' /etc/mysql/my.cnf 
- [mysqld]
- sql_mode="STRICT_ALL_TABLES"
+  Modify MySQL configuration to enforce NOT NULL constraint (restart after change)
+  grep -A1 '\[mysqld\]' /etc/mysql/my.cnf 
+  [mysqld]
+  sql_mode="STRICT_ALL_TABLES"
 
- create database browser;
- // MYSQL_USERNAME and MYSQL_PASSWORD derived from config/config.php
- CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
- e.g.,
- CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
- GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
+  create database browser;
+  // MYSQL_USERNAME and MYSQL_PASSWORD derived from config/config.php
+  CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
+  e.g.,
+  CREATE USER 'browser_www'@'localhost' IDENTIFIED BY '**********';
+  GRANT SELECT on `browser`.* TO `browser_www`@`localhost`;
 
   -- TABLE categories
   -- `priority` implies the priority the category is listed in Navigation, e.g.,
@@ -65,6 +65,18 @@ class Database {
   `comment` VARCHAR(1024),
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+  -- INDEX `categories`
+  -- mysql> show warnings;
+  --  +---------+------+---------------------------------------------------------+
+  --  | Level   | Code | Message                                                 |
+  --  +---------+------+---------------------------------------------------------+
+  --  | Warning | 1071 | Specified key was too long; max key length is 767 bytes |
+  --  | Warning | 1071 | Specified key was too long; max key length is 767 bytes |
+  --  +---------+------+---------------------------------------------------------+
+  -- http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
+  CREATE INDEX categoryIndex ON categories(category);
+  CREATE INDEX subcategoryIndex ON categories(subcategory);
 
   -- TABLE `properties`
   -- Properties of 'Image', 'Street Address', 'Photographer', and 'Date' of each accession
@@ -83,6 +95,10 @@ class Database {
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  -- INDEX `properties`
+  -- Not needed as primary key (id) is automatically indexed and what queries are comparing against
+  -- http://stackoverflow.com/questions/1071180/is-the-primary-key-automatically-indexed-in-mysql
+
   -- TABLE `filters`
   -- An accession (fk_properties_id) can belong to several subcategories
   -- Example INSERT:
@@ -100,6 +116,10 @@ class Database {
   FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  -- INDEX `filters`
+  CREATE INDEX fk_properties_idIndex ON filters(fk_properties_id);
+  CREATE INDEX fk_categories_idIndex ON filters(fk_categories_id);
+
   -- TABLE `attributes`
   -- N attributes to 1 accession (fk_properties_id)
   -- Example INSERT:
@@ -113,6 +133,9 @@ class Database {
   PRIMARY KEY (`id`),
   FOREIGN KEY (fk_properties_id) REFERENCES properties(id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+  -- INDEX `attributes`
+  CREATE INDEX fk_properties_idIndex ON attributes(fk_properties_id);
 
  */
 
