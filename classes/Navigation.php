@@ -25,11 +25,16 @@ $menus.= <<<'EOD'
 <span class="icon-bar"></span>
 </button>
 <a class="navbar-brand" href="/">Browser <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
-</div>
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<form method="post" action="/filter" class="navbar-form navbar-left">
-<ul class="nav navbar-nav">
 EOD;
+// If on the Display page provide a back button
+if ($about == 2) {
+    $menus.='<a class="navbar-brand" href="javascript:history.back()">';
+    $menus.='Back <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>';
+}
+
+$menus.='</div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
+$menus.='<form method="post" action="/filter" class="navbar-form navbar-left">';
+$menus.='<ul class="nav navbar-nav">';
 
         if(!$about) {
             // Obtain a listing of all (unique) top-level categories

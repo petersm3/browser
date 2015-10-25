@@ -39,7 +39,8 @@ class Display {
                     $results.='<div class="row">';
                     $results.='<div class="col-sm-5">';
                     $results.='<a href="/display?id=' . $filterMatch['fk_properties_id'] . '">';
-                    $results.='<img src="http://' . CDN_URL .'/320x200/000/fff.png&amp;text=';
+                    $results.='<img class="img-responsive" src="http://' . CDN_URL;
+                    $results.='/320x240/000/fff.png&amp;text=%20';
                     $results.=$properties['image'];
                     $results.='" alt="' . $properties['image'] . '"/></a>';
                     $results.='</div>';
@@ -92,6 +93,27 @@ class Display {
             $results.='</div>'; // close container
         }
         return $results; 
+    }
+
+    public function getAccession($id, $dbh) {
+        $this->displayDatabase = new DisplayDatabase($dbh);
+        $properties = $this->displayDatabase->getProperties(intval($id));
+
+        $results='';
+        $results.='<div class="jumbotron">';
+        $results.='<img class="img-responsive" src="http://' . CDN_URL .'/640x480/000/fff.png&amp;text=%20';
+        $results.=$properties['image'];
+        $results.='" alt="' . $properties['image'] . '"/>';
+        $results.='<table class="table">';
+        $results.='<tr><td>Accession:</td><td>';
+        $results.=$id. '</td></tr>';
+        $results.='<tr><td>Address:</td><td>' . $properties['street_address'] . '</td></tr>';
+        $results.='<tr><td>Photographer:</td><td>' . $properties['photographer'] . '</td></tr>';
+        $results.='<tr><td>Date:</td><td>' . $properties['date'] . '</td></tr>';
+        $results.='</table>';
+        $results.='</div>';
+
+        return $results;
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */
 }

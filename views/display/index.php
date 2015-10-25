@@ -1,7 +1,7 @@
 <?php
-$this->setLayoutVar('pageTitle', 'Display');
+$this->setLayoutVar('pageTitle', 'Display ' . $accession);
 ?>
 <?php echo $navigation ?>
 <div class="container">
-Test
+<?php echo $result ?>
 </div>
