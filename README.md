@@ -77,9 +77,9 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 ### Content delivery network (CDN)
 * Simulate CDN by deploying "Dynamic Dummy Image Generator" (http://dummyimage.com/) to VHOST.
   * The `index.php` is not required; `code.php` is required and referenced by `.htaccess`
-  * GD required, e.g., On Ubuntu: `apt-get install php5-gd`
+  * GD required, e.g., on Ubuntu: `apt-get install php5-gd`
 * Line 110 of code.php may need to have the explicit path to the font (on Ubuntu):
-* `$font = "/data/www/cdn/mplus-1c-medium.ttf";`
+  * `$font = "/data/www/cdn/mplus-1c-medium.ttf";`
 
 ### Application configuration
 * Copy https://github.com/petersm3/browser/blob/master/config/config.php-template to `config.php`
