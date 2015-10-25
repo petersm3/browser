@@ -35,7 +35,14 @@ class Display {
             } else {
                 foreach ($filterMatches as $filterMatch) {
                     $results.='<div class="jumbotron">';
+                    $results.='<div class="row">';
+                    $results.='<div class="col-sm-5">';
+                    $results.='<img src="http://cdn.communicore.net/320x200/000/fff&amp;text=8644aef5764b2fb3fc9cd6955962a01b" alt="adfadfa" />';
+                    $results.='</div>';
+                    $results.='<div class="col-sm-2"></div>';
+                    $results.='<div class="col-sm-5">';
                     $results.='Accession: ' . $filterMatch['accession'];
+                    $results.='</div></div>';
                     $results.='</div>';
                 }
             }

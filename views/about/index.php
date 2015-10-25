@@ -18,6 +18,7 @@ $this->setLayoutVar('pageTitle', 'About');
          <li><a target="_blank" href="https://www.mysql.com/">MySQL</a></li>
          <li><a target="_blank" href="http://lightvc.org/">LightVC</a></li>
          <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a></li>         
+         <li><a target="_blank" href="http://dummyimage.com/">Dynamic Dummy Image Generator</a></li>
       </ul>
    </li>
 </ul>
