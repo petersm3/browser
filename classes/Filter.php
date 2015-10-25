@@ -7,6 +7,9 @@ class Filter {
                 $getFilters.='filter[]=' . $value . '&';
             }
         }
+        if(isset($post['offset'])) {
+            $getFilters.='offset=' . $post['offset'] . '&';
+        }
         // Do not need trailing &
         return substr($getFilters, 0, -1);
     }
