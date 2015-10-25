@@ -1,8 +1,10 @@
 <?php
 $this->setLayoutVar('pageTitle', 'About');
 ?>
+<a href="#content" class="sr-only">Skip navigation</a>
 <?php echo $navigation ?>
 <div class="container">
+<section id="content">
 <ul>
   <li>Author: Matthew Peterson <a href="mailto:petersm3@oregonstate.edu">petersm3@oregonstate.edu</a></li>
   <li>Project: Image and cultural properties browser
@@ -22,4 +24,5 @@ $this->setLayoutVar('pageTitle', 'About');
       </ul>
    </li>
 </ul>
+</selection>
 </div>
