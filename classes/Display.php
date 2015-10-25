@@ -6,7 +6,7 @@ class Display {
         $this->displayDatabase = new DisplayDatabase($dbh);
 
         $offset=0;
-        $limit=2;
+        $limit=100;
 
         $results='';
         if(isset($get['filter'])) {

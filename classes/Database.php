@@ -86,8 +86,8 @@ class Database {
   -- TABLE `filters`
   -- An accession (fk_properties_id) can belong to several subcategories
   -- Example INSERT:
-  -- INSERT INTO filters (fk_properties_id, fk_category_id) VALUES (8, 1);
-  -- INSERT INTO filters (fk_properties_id, fk_category_id) VALUES (8, 22);
+  -- INSERT INTO filters (fk_properties_id, fk_categories_id) VALUES (8, 1);
+  -- INSERT INTO filters (fk_properties_id, fk_categories_id) VALUES (8, 22);
   -- Example query to find accessions matching the user supplied filters:
   -- SELECT fk_properties_id, COUNT(fk_properties_id) as count_fk_properties_id FROM filters WHERE fk_categories_id IN (<several categories.id seperated by commas>) GROUP BY fk_properties_id HAVING count_fk_properties_id = <total number of categories.id supplied>;
 
