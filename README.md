@@ -13,7 +13,7 @@ Image and cultural properties browser
   * filters
   * attributes
 * CREATE INDEXES
-###Populate database
+### Populate database
 * Copy https://github.com/petersm3/browser/blob/master/tools/credentials.php-template to credentials.php
   * Configure values
 * Run https://github.com/petersm3/browser/blob/master/tools/populate_database.php
