@@ -76,22 +76,26 @@ EOD;
 
                     // Given current search filters applied project what adding this additional
                     // filter would yield in total results.
-                    $categoryIds = array();
-                    if(isset($get['filter'])) {
-                        foreach ($get['filter'] as $getFilter) {
-                            // Filter is specified as category:subcategory
-                            $categorySubcategory = explode(":", $getFilter);
-                            $category = str_replace('_' ,' ', $categorySubcategory[0]);
-                            $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
-                            $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
-                            array_push($categoryIds, $categoryId['id']);
+                    if($checked != 'checked') {
+                        $categoryIds = array();
+                        if(isset($get['filter'])) {
+                            foreach ($get['filter'] as $getFilter) {
+                                // Filter is specified as category:subcategory
+                                $categorySubcategory = explode(":", $getFilter);
+                                $category = str_replace('_' ,' ', $categorySubcategory[0]);
+                                $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
+                                $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
+                                array_push($categoryIds, $categoryId['id']);
+                            }
                         }
+                        // Add curent unselected filter to array to generate possible set of return accessions
+                        $categoryId = $this->displayDatabase->getCategoriesId($categoryRaw, $subCategoryRaw);
+                        array_push($categoryIds, $categoryId['id']);
+                        $filterMatches = $this->displayDatabase->getFilterMatches($categoryIds);
+                        $menus.= '&nbsp;&nbsp;<span class="badge">' . count($filterMatches);
+                    } else {
+                        $menus.= '&nbsp;&nbsp;<span class="badge">0';
                     }
-                    // Add curent unselected filter to array to generate possible set of return accessions
-                    $categoryId = $this->displayDatabase->getCategoriesId($categoryRaw, $subCategoryRaw);
-                    array_push($categoryIds, $categoryId['id']);
-                    $filterMatches = $this->displayDatabase->getFilterMatches($categoryIds);
-                    $menus.= '&nbsp;&nbsp;<span class="badge">' . count($filterMatches);
                     $menus.='</span></label></li>';
                 }
                 $menus.='</ul></li>';
