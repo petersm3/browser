@@ -67,22 +67,26 @@ class Database {
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
   -- TABLE `filters`
-  -- Numbering of accession managed by program, e.g., SELECT MAX(accession) FROM filters;
-  -- An accession (new asset) can belong to several subcategories
+  -- An accession (fk_properties_id) can belong to several subcategories
   -- Example INSERT:
-  -- INSERT INTO filters (accession, fk_category_id) VALUES (8, 1);
-  -- INSERT INTO filters (accession, fk_category_id) VALUES (8, 22);
+  -- INSERT INTO filters (fk_properties_id, fk_category_id) VALUES (8, 1);
+  -- INSERT INTO filters (fk_properties_id, fk_category_id) VALUES (8, 22);
   -- Example query to find accessions matching the user supplied filters:
-  -- SELECT accession, COUNT(accession) as count_accession FROM filters WHERE fk_categories_id IN (<several categories.id seperated by commas>) GROUP BY accession HAVING count_accession = <total number of categories.id supplied>;
+  -- SELECT fk_properties_id, COUNT(fk_properties_id) as count_fk_properties_id FROM filters WHERE fk_categories_id IN (<several categories.id seperated by commas>) GROUP BY fk_properties_id HAVING count_fk_properties_id = <total number of categories.id supplied>;
 
- CREATE TABLE `filters` (
- `id` int(6) NOT NULL auto_increment,
- `accession` int(7) NOT NULL,
- `fk_categories_id` INT(2) NOT NULL,
- PRIMARY KEY (`id`),
- FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CREATE TABLE `filters` (
+  `id` int(6) NOT NULL auto_increment,
+  `fk_properties_id` int(7) NOT NULL,
+  `fk_categories_id` INT(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (fk_properties_id) REFERENCES properties(id),
+  FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  -- TABLE `properties`
+  -- Properties of 'Image', 'Street Address', 'Photographer', and 'Date' of each accession
+  -- Example INSERT:
+  -- INSERT
  */
  
 /* vim:set noexpandtab tabstop=4 sw=4: */

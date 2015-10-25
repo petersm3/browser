@@ -41,7 +41,7 @@ class Display {
                     $results.='</div>';
                     $results.='<div class="col-sm-2"></div>';
                     $results.='<div class="col-sm-5">';
-                    $results.='Accession: ' . $filterMatch['accession'];
+                    $results.='Accession: ' . $filterMatch['fk_properties_id'];
                     $results.='</div></div>';
                     $results.='</div>';
                 }

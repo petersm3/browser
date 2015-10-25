@@ -19,15 +19,16 @@ class DisplayDatabase {
         return $st->fetch();
     }
 
-    // Obtain a list of accessions that match the filter criteria exactly
+    // Obtain a list of fk_properties_ids that match the filter criteria exactly
     public function getFilterMatches($categoriesIds, $limit = 0, $offset = 0) {
         // http://stackoverflow.com/questions/920353/can-i-bind-an-array-to-an-in-condition
         $qMarks = ' ? ';
         if(count($categoriesIds) > 1) {
             $qMarks = str_repeat('?,', count($categoriesIds) - 1) . '?';
         }
-        $sql= "SELECT accession, COUNT(accession) as count_accession FROM filters WHERE fk_categories_id ";
-        $sql.="IN ($qMarks) GROUP BY accession HAVING count_accession = ";
+        $sql="SELECT fk_properties_id, COUNT(fk_properties_id) as count_fk_properties_id";
+        $sql.=" FROM filters WHERE fk_categories_id ";
+        $sql.="IN ($qMarks) GROUP BY fk_properties_id HAVING count_fk_properties_id = ";
         $sql.=count($categoriesIds);
         if($limit > 0) {
             $sql.=" LIMIT " . intval($limit);
