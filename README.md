@@ -22,7 +22,7 @@ Image and cultural properties browser
 * Copy https://github.com/petersm3/browser/blob/master/tools/credentials.php-template to `credentials.php`
   * Configure values; database user must have a GRANT to perform INSERT.
 * Run https://github.com/petersm3/browser/blob/master/tools/populate_database.php
-  * e.g., `10000` accessions
+  * e.g., `20000` accessions
   * Only run this script once. If you need to re-run then first drop the tables and recreate.
     * This is necessary as the script assumes a certain order/offset from the auto increment primary keys.
 
