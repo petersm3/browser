@@ -1,12 +1,15 @@
 <?php
 require_once(APP_PATH . 'classes/DisplayDatabase.php');
+// Display functions for both the main page when navigating and for the single accesion display page
 
 class Display {
+
+    // Obtain all results given the currently checked filter(s)
     public function getResults($get, $dbh) {
         $this->displayDatabase = new DisplayDatabase($dbh);
 
         $offset=0;
-        $limit=100;
+        $limit=100; // Hard coded limit; TODO: make user specified as a future feature
 
         $results='';
         if(isset($get['filter'])) {
@@ -33,6 +36,7 @@ class Display {
                 $results.='No matches found satisfying an exact match to the above filter critera.';
                 $results.='</div>'; 
             } else {
+                // Display all matches on front page
                 foreach ($filterMatches as $filterMatch) {
                     $properties = $this->displayDatabase->getProperties($filterMatch['fk_properties_id']);
                     $results.='<div class="jumbotron">';
@@ -95,6 +99,7 @@ class Display {
         return $results; 
     }
 
+    // Obtain properties and attributes for a single accession record and display
     public function getAccession($id, $dbh) {
         $this->displayDatabase = new DisplayDatabase($dbh);
         $properties = $this->displayDatabase->getProperties(intval($id));
@@ -115,6 +120,7 @@ class Display {
         $results.='<tr><td>Photographer:</td><td>' . $properties['photographer'] . '</td></tr>';
         $results.='<tr><td>Date:</td><td>' . $properties['date'] . '</td></tr>';
         // Not sorting attributes in any consistent way
+        // TODO: Add some sort of sorting method
         foreach ($attributes as $attribute) {
             $results.='<tr><td>' . $attribute['name'] . '</td><td>' . $attribute['value'] . '</td></tr>';
         }
@@ -125,3 +131,4 @@ class Display {
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */
 }
+?>

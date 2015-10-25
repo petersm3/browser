@@ -1,4 +1,6 @@
 <?php
+// Take incoming POST values for filter and offset and rewrite as GET arguments
+
 class Filter {
     public function parse($post) {
         $getFilters='';

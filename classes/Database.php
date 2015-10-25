@@ -1,7 +1,13 @@
 <?php
+// Database class to create a handle to the MySQL database using PDO
+// Exceptions are turned on but there are is no exception catching via
+// try/catch blocks in this application (specifically as there are no transactions)
+//
+// NOTE: Look at the bottom of this file to see all MySQL schema setup statements
 
 class Database {
     function getConnection() {
+        // Variables defined in /config/config.php
         $hostname = MYSQL_HOSTNAME;
         $database = MYSQL_DATABASE;
         $username = MYSQL_USERNAME;

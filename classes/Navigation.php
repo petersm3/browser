@@ -26,7 +26,9 @@ $menus.= <<<'EOD'
 </button>
 <a class="navbar-brand" href="/">Browser <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
 EOD;
+
 // If on the Display page provide a back button
+// TODO: Construct a URL useable by screen readers for WCAG compliance as they may not implement browser JS
 if ($about == 2) {
     $menus.='<a class="navbar-brand" href="javascript:history.back()">';
     $menus.='Back <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>';
@@ -80,7 +82,7 @@ $menus.='<ul class="nav navbar-nav">';
                     $menus.=$subCategoryRaw;
 
                     // Given current search filters applied project what adding this additional
-                    // filter would yield in total results.
+                    // filter would yield in total, projected results.
                     if($checked != 'checked') {
                         $categoryIds = array();
                         if(isset($get['filter'])) {
@@ -106,6 +108,7 @@ $menus.='<ul class="nav navbar-nav">';
                 $menus.='</ul></li>';
             }
             $menus.='<li>';
+            // Submit button for WCAG as screen reader may not implement JS onchange
             $menus.='<button type="submit" class="btn btn-link">Submit</button></li>';
         }
 
@@ -121,7 +124,7 @@ $menus.= <<<'EOD'
 </nav>
 <div class="container">
 EOD;
-        // Display currently applied filters on main page (not About page)
+        // Display currently applied filters on main page (not About or singe accession Display page)
         if(!$about) {
             $error=0;
             // Validate that GET entires match values in `categories` table

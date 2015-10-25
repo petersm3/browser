@@ -1,4 +1,5 @@
 <?php
+// Navigation helper functions to construct top-level dropdown faceted navigation
 
 class NavigationDatabase {
 
@@ -28,3 +29,5 @@ class NavigationDatabase {
         return $st->fetchAll();
     }
 }
+/* vim:set noexpandtab tabstop=4 sw=4: */
+?>
