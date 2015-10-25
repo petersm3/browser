@@ -26,6 +26,7 @@ class DisplayController extends AppController {
             $this->setVar('accession', intval($this->get['id']));
             $this->setVar('result', $this->display->getAccession(intval($this->get['id']), $this->dbh));
         } else {
+            $this->setVar('accession', '');
             $this->setVar('result', 'No accession provided.');
         }
     }

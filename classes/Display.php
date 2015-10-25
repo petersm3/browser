@@ -98,6 +98,10 @@ class Display {
     public function getAccession($id, $dbh) {
         $this->displayDatabase = new DisplayDatabase($dbh);
         $properties = $this->displayDatabase->getProperties(intval($id));
+        if ($properties['id'] != intval($id)) {
+            return "Accession " . intval($id) . ' not found.';
+        }
+        $attributes = $this->displayDatabase->getAttributes(intval($id));
 
         $results='';
         $results.='<div class="jumbotron">';
@@ -106,10 +110,14 @@ class Display {
         $results.='" alt="' . $properties['image'] . '"/>';
         $results.='<table class="table">';
         $results.='<tr><td>Accession:</td><td>';
-        $results.=$id. '</td></tr>';
+        $results.=$properties['id']. '</td></tr>';
         $results.='<tr><td>Address:</td><td>' . $properties['street_address'] . '</td></tr>';
         $results.='<tr><td>Photographer:</td><td>' . $properties['photographer'] . '</td></tr>';
         $results.='<tr><td>Date:</td><td>' . $properties['date'] . '</td></tr>';
+        // Not sorting attributes in any consistent way
+        foreach ($attributes as $attribute) {
+            $results.='<tr><td>' . $attribute['name'] . '</td><td>' . $attribute['value'] . '</td></tr>';
+        }
         $results.='</table>';
         $results.='</div>';
 

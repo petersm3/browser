@@ -42,12 +42,21 @@ class DisplayDatabase {
     }
 
     public function getProperties($propertiesId) {
-        $sql="SELECT image, street_address, photographer, date ";
+        $sql="SELECT id, image, street_address, photographer, date ";
         $sql.=" FROM properties where id = ?";
         $st = $this->dbh->prepare($sql);
         $values = array($propertiesId);
         $st->execute($values);
         return $st->fetch();
+    }
+
+    public function getAttributes($propertiesId) {
+        $sql="SELECT name, value ";
+        $sql.=" FROM attributes where fk_properties_id = ?";
+        $st = $this->dbh->prepare($sql);
+        $values = array($propertiesId);
+        $st->execute($values);
+        return $st->fetchAll();
     }
 }
 /* vim:set noexpandtab tabstop=4 sw=4: */
