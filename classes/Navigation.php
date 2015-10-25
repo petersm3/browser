@@ -97,10 +97,6 @@ EOD;
                 $menus.='</ul></li>';
             }
             $menus.='<li>';
-            // For pagination
-            if(isset($get['offset'])) {
-                $menus.='<input type="hidden" name="offset" value="' . $get['offset'] . '" />';
-            }
             $menus.='<button type="submit" class="btn btn-link">Submit</button></li>';
         }
 

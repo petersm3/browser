@@ -20,7 +20,7 @@ class DisplayDatabase {
     }
 
     // Obtain a list of accessions that match the filter criteria exactly
-    public function getFilterMatches($categoriesIds) {
+    public function getFilterMatches($categoriesIds, $limit = 0, $offset = 0) {
         // http://stackoverflow.com/questions/920353/can-i-bind-an-array-to-an-in-condition
         $qMarks = ' ? ';
         if(count($categoriesIds) > 1) {
@@ -29,6 +29,12 @@ class DisplayDatabase {
         $sql= "SELECT accession, COUNT(accession) as count_accession FROM filters WHERE fk_categories_id ";
         $sql.="IN ($qMarks) GROUP BY accession HAVING count_accession = ";
         $sql.=count($categoriesIds);
+        if($limit > 0) {
+            $sql.=" LIMIT " . intval($limit);
+        }
+        if($offset > 0) {
+            $sql.=" OFFSET " . intval($offset);
+        } 
         $st = $this->dbh->prepare($sql);
         $st->execute($categoriesIds);
         return $st->fetchAll();
