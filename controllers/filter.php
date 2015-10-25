@@ -13,4 +13,5 @@ class FilterController extends AppController {
         exit();
     }
 }
+/* vim:set noexpandtab tabstop=4 sw=4: */
 ?>

@@ -38,7 +38,7 @@ class Display {
                     $results.='<div class="jumbotron">';
                     $results.='<div class="row">';
                     $results.='<div class="col-sm-5">';
-                    $results.='<a href="/display/' . $filterMatch['fk_properties_id'] . '">';
+                    $results.='<a href="/display?id=' . $filterMatch['fk_properties_id'] . '">';
                     $results.='<img src="http://' . CDN_URL .'/320x200/000/fff.png&amp;text=';
                     $results.=$properties['image'];
                     $results.='" alt="' . $properties['image'] . '"/></a>';
@@ -47,7 +47,7 @@ class Display {
                     $results.='<div class="col-sm-5">';
                     $results.='<table class="table">';
                     $results.='<tr><td>Accession:</td><td>';
-                    $results.='<a href="/display/' . $filterMatch['fk_properties_id'] . '">';
+                    $results.='<a href="/display?id=' . $filterMatch['fk_properties_id'] . '">';
                     $results.=$filterMatch['fk_properties_id'] . '</a></td></tr>';
                     $results.='<tr><td>Address:</td><td>' . $properties['street_address'] . '</td></tr>';
                     $results.='<tr><td>Photographer:</td><td>' . $properties['photographer'] . '</td></tr>';

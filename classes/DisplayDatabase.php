@@ -50,3 +50,5 @@ class DisplayDatabase {
         return $st->fetch();
     }
 }
+/* vim:set noexpandtab tabstop=4 sw=4: */
+?>

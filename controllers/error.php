@@ -22,5 +22,5 @@ class ErrorController extends AppController
 	}
 	
 }
-
+/* vim:set noexpandtab tabstop=4 sw=4: */
 ?>
