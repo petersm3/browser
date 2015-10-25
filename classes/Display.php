@@ -22,6 +22,10 @@ class Display {
                 $category = str_replace('_', ' ', $categorySubcategory[0]);
                 $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
                 $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
+                // If an invalid filter is supplied via GET
+                if($categoryId['id'] < 1) {
+                    return;
+                } 
                 array_push($categoryIds, $categoryId['id']);
             }
 
