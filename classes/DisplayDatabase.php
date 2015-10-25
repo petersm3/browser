@@ -40,4 +40,13 @@ class DisplayDatabase {
         $st->execute($categoriesIds);
         return $st->fetchAll();
     }
+
+    public function getProperties($propertiesId) {
+        $sql="SELECT image, street_address, photographer, date ";
+        $sql.=" FROM properties where id = ?";
+        $st = $this->dbh->prepare($sql);
+        $values = array($propertiesId);
+        $st->execute($values);
+        return $st->fetch();
+    }
 }

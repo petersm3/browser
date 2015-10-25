@@ -34,14 +34,22 @@ class Display {
                 $results.='</div>'; 
             } else {
                 foreach ($filterMatches as $filterMatch) {
+                    $properties = $this->displayDatabase->getProperties($filterMatch['fk_properties_id']);
                     $results.='<div class="jumbotron">';
                     $results.='<div class="row">';
                     $results.='<div class="col-sm-5">';
-                    $results.='<img src="http://cdn.communicore.net/320x200/000/fff&amp;text=8644aef5764b2fb3fc9cd6955962a01b" alt="adfadfa" />';
+                    $results.='<img src="http://' . CDN_URL .'/320x200/000/fff.png&amp;text=';
+                    $results.=$properties['image'];
+                    $results.='" alt="' . $properties['image'] . '"/>';
                     $results.='</div>';
                     $results.='<div class="col-sm-2"></div>';
                     $results.='<div class="col-sm-5">';
-                    $results.='Accession: ' . $filterMatch['fk_properties_id'];
+                    $results.='<table class="table">';
+                    $results.='<tr><td>Accession:</td><td>' . $filterMatch['fk_properties_id'] . '</td></tr>';
+                    $results.='<tr><td>Address:</td><td>' . $properties['street_address'] . '</td></tr>';
+                    $results.='<tr><td>Photographer:</td><td>' . $properties['photographer'] . '</td></tr>';
+                    $results.='<tr><td>Date:</td><td>' . $properties['date'] . '</td></tr>';
+                    $results.='</table>';
                     $results.='</div></div>';
                     $results.='</div>';
                 }
