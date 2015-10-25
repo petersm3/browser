@@ -81,8 +81,8 @@ EOD;
                         foreach ($get['filter'] as $getFilter) {
                             // Filter is specified as category:subcategory
                             $categorySubcategory = explode(":", $getFilter);
-                            $category = $categorySubcategory[0];
-                            $subcategory = $categorySubcategory[1];
+                            $category = str_replace('_' ,' ', $categorySubcategory[0]);
+                            $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
                             $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
                             array_push($categoryIds, $categoryId['id']);
                         }
@@ -92,7 +92,7 @@ EOD;
                     array_push($categoryIds, $categoryId['id']);
                     $filterMatches = $this->displayDatabase->getFilterMatches($categoryIds);
                     $menus.= '&nbsp;&nbsp;<span class="badge">' . count($filterMatches);
-                    $menus.='</span><label></li>';
+                    $menus.='</span></label></li>';
                 }
                 $menus.='</ul></li>';
             }
@@ -113,25 +113,46 @@ $menus.= <<<'EOD'
 EOD;
         // Display currently applied filters on main page (not About page)
         if(!$about) {
-            $menus.='<ol class="breadcrumb">';
+            $error=0;
+            // Validate that GET entires match values in `categories` table
             if(isset($get['filter'])) {
-                foreach ($get['filter'] as $filter) {
-                    $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
+                foreach ($get['filter'] as $getFilter) {
+                    // Filter is specified as category:subcategory
+                    $categorySubcategory = explode(":", $getFilter);
+                    $category = str_replace('_', ' ', $categorySubcategory[0]);
+                    $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
+                    $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
+                    if(($error == 0) && ($categoryId['id'] < 1)) {
+                        $error=1;
+                        $menus.='<div class="alert alert-danger" role="alert">';
+                        $menus.='<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
+                        $menus.='<span class="sr-only">Error:</span>';
+                        $menus.=' Filter: "' . $getFilter . '" is not valid; please check your URL.';
+                        $menus.='</div>';
+                    }
                 }
-            } else {
-                $menus.= '<li>Filters: <i>none</i></li>';
             }
-            $menus.='</ol>';
 
-            // If no filters show a default message
-            if(!isset($get['filter'])) {
-                $menus.='<div class="jumbotron">';
-                $menus.='Select filters from the dropdown categories above to being you search.';
-                $menus.='</div>';
+            if($error==0) {
+                $menus.='<ol class="breadcrumb">';
+                if(isset($get['filter'])) {
+                    foreach ($get['filter'] as $filter) {
+                        $menus.='<li>' . str_replace('_', ' ', $filter) . '</li> ';
+                    }
+                } else {
+                    $menus.= '<li>Filters: <i>none</i></li>';
+                }
+                $menus.='</ol>';
+
+                // If no filters show a default message
+                if(!isset($get['filter'])) {
+                    $menus.='<div class="jumbotron">';
+                    $menus.='Select filters from the dropdown categories above to being you search.';
+                    $menus.='</div>';
+                }
             }
         }
         $menus.='</div>'; // Close container
-
         return $menus;
     }
 /* vim:set noexpandtab tabstop=4 sw=4: */

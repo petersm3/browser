@@ -13,8 +13,8 @@ class Display {
             foreach ($get['filter'] as $getFilter) {
                 // Filter is specified as category:subcategory
                 $categorySubcategory = explode(":", $getFilter);
-                $category = $categorySubcategory[0];
-                $subcategory = $categorySubcategory[1];
+                $category = str_replace('_', ' ', $categorySubcategory[0]);
+                $subcategory = urldecode(str_replace('_' ,' ', $categorySubcategory[1]));
                 $categoryId = $this->displayDatabase->getCategoriesId($category, $subcategory);
                 array_push($categoryIds, $categoryId['id']);
             }
