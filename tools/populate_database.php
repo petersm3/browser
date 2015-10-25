@@ -70,4 +70,21 @@ for ($accession = 1; $accession <= intval($argv[1]); $accession++) {
         $st->execute($values); 
     }
 }
+
+// Populate `filters` (that ties each accession to a subcategory in the navigation)
+$colors = array('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'Burnt Sienna');
+$clouds = array('Clear', 'Scattered/Partly Cloudy', 'Broken/Mostly Cloudy', 'Overcast', 'Obscured');
+
+$sql="INSERT INTO attributes (fk_properties_id, name, value)";
+$sql.=" VALUES(?, ?, ?)";
+$st=$dbh->prepare($sql);
+for ($accession = 1; $accession <= intval($argv[1]); $accession++) {
+    $values = array($accession, 'Color', $colors[array_rand($colors)]);
+    $st->execute($values);
+    $values = array($accession, 'Clouds', $clouds[array_rand($clouds)]);
+    $st->execute($values);
+    $values = array($accession, 'Humidity (%)', rand(1,100));
+    $st->execute($values);
+}
+/* vim:set noexpandtab tabstop=4 sw=4: */
 ?>

@@ -100,6 +100,20 @@ class Database {
   FOREIGN KEY (fk_categories_id) REFERENCES categories(id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  -- TABLE `attributes`
+  -- N attributes to 1 accession (fk_properties_id)
+  -- Example INSERT:
+  -- INSERT INTO attributes (fk_properties_id, name, value) VALUES (8, 'color', 'red');
+
+  CREATE TABLE `attributes` (
+  `id` int(9) NOT NULL auto_increment,
+  `fk_properties_id` int(7) NOT NULL,
+  `name` VARCHAR(256) NOT NULL,
+  `value` VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (fk_properties_id) REFERENCES properties(id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
  */
 
 /* vim:set noexpandtab tabstop=4 sw=4: */
