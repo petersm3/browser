@@ -160,7 +160,7 @@ EOD;
                 // If no filters show a default message
                 if(!isset($get['filter'])) {
                     $menus.='<div class="jumbotron">';
-                    $menus.='Select filters from the dropdown categories above to being you search.';
+                    $menus.='Select filters from the dropdown categories above to begin your search.';
                     $menus.='</div>';
                 }
             }
