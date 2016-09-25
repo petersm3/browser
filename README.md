@@ -2,10 +2,10 @@
 Image and cultural properties browser
 
 # Demo
-[Live demonstration site](http://browser.communicore.net){:target="_blank"}
+[Live demonstration site](http://browser.communicore.net)
 
 # Documentation 
-[Lightning Talk](docs/browser-lightning-talk-20151118.pdf){:target="_blank"}
+[Lightning Talk](docs/browser-lightning-talk-20151118.pdf)
 
 # Setup
 ## MySQL
