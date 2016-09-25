@@ -4,6 +4,9 @@ Image and cultural properties browser
 # Demo
 http://browser.communicore.net
 
+# Documentation 
+[Lightning Talk](docs/browser-lightning-talk-20151118.pdf)
+
 # Setup
 ## MySQL
 * View comments at bottom of: https://github.com/petersm3/browser/blob/master/classes/Database.php
