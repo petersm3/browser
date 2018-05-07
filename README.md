@@ -36,7 +36,7 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 ### VHOST
 
 #### Browser
-* Per LightVC (http://lightvc.org/) setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
+* Per LightVC (https://github.com/awbush/lightvc) setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
   * Do not specify these variables as the top-level directory, e.g., `/data/www/browser`
 * Define `<MY FQDN>`
 ```
