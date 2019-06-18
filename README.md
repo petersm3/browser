@@ -4,6 +4,9 @@ Image and cultural properties browser
 # Documentation 
 [Lightning Talk](docs/browser-lightning-talk-20151118.pdf)
 
+# Screenshot
+![Lightning Talk Slide 09 showing browser faceted navigation interface](docs/browser-slide09.png)
+
 # Setup
 ## MySQL
 * View comments at bottom of: [Database.php](classes/Database.php)
