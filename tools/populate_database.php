@@ -43,7 +43,7 @@ foreach ($categories as $category) {
     $priority++;
 }
 
-// Popualte `properties` (table that contains accessions)
+// Populate `properties` (table that contains accessions)
 // Generate number based upon what was specified as a command line argument
 $year  = range(1900, 2015, 1); // Random year
 $direction = array('north', 'north east', 'east', 'south east', 'south', 'south west', 'west', 'north west');
