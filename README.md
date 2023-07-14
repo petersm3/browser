@@ -7,6 +7,44 @@ Image and cultural properties browser
 # Screenshot
 ![Lightning Talk Slide 09 showing browser faceted navigation interface](docs/browser-slide09.png)
 
+# Schema
+```mermaid
+erDiagram
+    categories {
+        int(2) id PK
+        int(2) priority
+        varchar(256) category
+        varchar(256) subcategory
+        varchar(1024) comment
+    }
+    filters {
+        int(7) id PK
+        int(7) fk_properties_id FK
+        int(2) fk_categories_id FK
+    }
+    properties {
+        int(7) id PK
+        varchar(32) image
+        varchar(255) street_address
+        varchar(255) photographer
+        varhcar(255) date
+    }
+    attributes {
+        int(9) id PK
+        int(7) fk_properties_id FK
+        varchar(256) name
+        varchar(1024) value
+    }
+    categories ||--|{ filters : ""
+    properties ||--|{ filters : ""
+    properties ||--|{ attributes : ""
+```
+* `categories` table to help build navigation dropdown of categories and sub-categories
+* `filters` table maps categories and sub-categories to each accession (image)
+* `properties` table defines each of the 20,000 [randomly generated](tools/populate_database.php) accessions (images)
+  * **Note:** `date` is not defined using the MySQL `date` type as the reference for this project contained arbitrary dates, e.g., "Temporal 1900-1909"
+* `attributes` table stores additional, arbitrary metadata for each accession
+
 # Setup
 ## MySQL
 * View comments at bottom of: [Database.php](classes/Database.php)
