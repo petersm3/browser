@@ -80,7 +80,7 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 * Per LightVC (https://github.com/awbush/lightvc) setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
   * Do not specify these variables as the top-level directory, e.g., `/data/www/browser`
 * Define `<MY FQDN>`
-```
+```apache
 <VirtualHost *:80>
 
     ServerAdmin petersm3@onid.oregonstate.edu
@@ -100,7 +100,7 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 #### CDN
 * Simulated content delivery network (see Application documentation below)
 * Define `<MY FQDN>`
-```
+```apache
 <VirtualHost *:80>
 
     ServerAdmin webmaster@localhost
