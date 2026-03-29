@@ -1,6 +1,8 @@
 # Summary
 Image and cultural properties browser
 
+2026-03-29 See https://github.com/petersm3/browser-rewrite for rewrite using Claude Code
+
 # Documentation 
 [Lightning Talk](docs/browser-lightning-talk-20151118.pdf)
 
