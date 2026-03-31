@@ -4,7 +4,7 @@ Image and cultural properties browser
 20260329 See https://github.com/petersm3/browser-rewrite for rewrite using Claude Code
 
 # Documentation 
-[Lightning Talk](docs/browser-lightning-talk-20151118.pdf)
+[Lightning Talk](docs/browser-lightning-talk-20151118.pdf) (20151118)
 
 # Screenshot
 ![Lightning Talk Slide 09 showing browser faceted navigation interface](docs/browser-slide09.png)
