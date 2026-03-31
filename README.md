@@ -3,13 +3,13 @@ Image and cultural properties browser
 
 20260329 See https://github.com/petersm3/browser-rewrite for rewrite using Claude Code
 
-# Documentation 
+## Documentation 
 [Lightning Talk](docs/browser-lightning-talk-20151118.pdf) (20151118)
 
-# Screenshot
+## Screenshot
 ![Lightning Talk Slide 09 showing browser faceted navigation interface](docs/browser-slide09.png)
 
-# Schema
+## Schema
 ```mermaid
 erDiagram
     categories {
@@ -47,8 +47,8 @@ erDiagram
   * **Note:** `date` is not defined using the MySQL `date` type as the reference for this project contained arbitrary dates, e.g., "Temporal 1900-1909"
 * `attributes` table stores additional, arbitrary metadata for each accession
 
-# Setup
-## MySQL
+## Setup
+### MySQL
 * View comments at bottom of: [Database.php](classes/Database.php)
 * Modify `my.cnf` to enforce `sql_mode="STRICT_ALL_TABLES"` for primary/foriegn key InnoDB constraints.
 * CREATE DATABASE
@@ -65,7 +65,7 @@ erDiagram
   * `filters`
   * `attributes`
 
-### Populate database
+#### Populate database
 * Copy [credentials.php-template](tools/credentials.php-template) to `credentials.php`
   * Configure values; database user must have a GRANT to perform INSERT.
 * Run [populate_database.php](tools/populate_database.php)
@@ -73,12 +73,12 @@ erDiagram
   * Only run this script once. If you need to re-run then first drop the tables and recreate.
     * This is necessary as the script assumes a certain order/offset from the auto increment primary keys.
 
-## Apache
+### Apache
 Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 
-### VHOST
+#### VHOST
 
-#### Browser
+##### Browser
 * Per LightVC (https://github.com/awbush/lightvc) setup you must specify both the `DocumentRoot` and `Directory` as `webroot`
   * Do not specify these variables as the top-level directory, e.g., `/data/www/browser`
 * Define `<MY FQDN>`
@@ -99,7 +99,7 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 </VirtualHost>
 ```
 
-#### CDN
+##### CDN
 * Simulated content delivery network (see Application documentation below)
 * Define `<MY FQDN>`
 ```apache
@@ -119,16 +119,16 @@ Example is from Ubuntu `/etc/apache2/sites-enabled/` configuration files
 </VirtualHost>
 ```
 
-## Application
+### Application
 
-### Content delivery network (CDN)
+#### Content delivery network (CDN)
 * Simulate CDN by deploying "Dynamic Dummy Image Generator" (http://dummyimage.com/) to VHOST.
   * The `index.php` is not required; `code.php` is required and referenced by `.htaccess`
   * GD required, e.g., on Ubuntu: `apt-get install php5-gd`
 * Line 110 of code.php may need to have the explicit path to the font (on Ubuntu):
   * `$font = "/data/www/cdn/mplus-1c-medium.ttf";`
 
-### Application configuration
+#### Application configuration
 * Copy [config.php-template](config/config.php-template) to `config.php`
   * Configure values
   * User should be `browser_www` with only a GRANT to SELECT.
