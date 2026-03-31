@@ -29,7 +29,7 @@ erDiagram
         varchar(32) image
         varchar(255) street_address
         varchar(255) photographer
-        varhcar(255) date
+        varchar(255) date
     }
     attributes {
         int(9) id PK
